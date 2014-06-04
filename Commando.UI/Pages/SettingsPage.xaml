@@ -1,0 +1,58 @@
+﻿<Page x:Class="twomindseye.Commando.UI.Pages.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:engineLoad="clr-namespace:twomindseye.Commando.Engine.Load;assembly=Commando.Engine"
+      xmlns:lutil="clr-namespace:twomindseye.Commando.UI.Util"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:lpages="clr-namespace:twomindseye.Commando.UI.Pages"
+      xmlns:lvm="clr-namespace:twomindseye.Commando.UI.ViewModels" mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      FocusManager.FocusedElement="{Binding ElementName=_list}"
+      d:DataContext="{d:DesignInstance Type=lvm:ExtensionsViewModel}"
+	  Title="Settings">
+
+    <Page.Resources>
+        <lutil:MapperConverter x:Key="ExtensionTypeDescriptionConverter">
+            <lutil:ValueMapping Key="*type:LoaderScriptExtension">(Script)</lutil:ValueMapping>
+            <lutil:ValueMapping Key="*default"></lutil:ValueMapping>
+        </lutil:MapperConverter>
+        <lutil:CascadingValueConverter x:Key="RequiresConfigurationConverter">
+            <lutil:CallMethodValueConverter MethodName="AreConfiguratorsConfigured" />
+            <lutil:MapperConverter>
+                <lutil:ValueMapping Key="False">(Requires Configuration)</lutil:ValueMapping>
+                <lutil:ValueMapping Key="True"></lutil:ValueMapping>
+            </lutil:MapperConverter>
+        </lutil:CascadingValueConverter>
+    </Page.Resources>
+
+    <TabControl>
+        <TabItem Header="Extensions">
+            <ListBox ItemsSource="{Binding Extensions}" x:Name="_list">
+                <i:Interaction.Triggers>
+                    <lutil:CommandKeyTrigger Key="Enter" ActionText="Configure Extension" 
+                                             Command="{Binding ConfigureExtensionCommand, RelativeSource={RelativeSource AncestorType=lpages:SettingsPage}}"
+                                             CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding ConfigureExtensionCommand, RelativeSource={RelativeSource AncestorType=lpages:SettingsPage}}"
+                                               CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <Run Text="{Binding Description, Mode=OneTime}" />
+                            <Run Text="{Binding Mode=OneTime, Converter={StaticResource ExtensionTypeDescriptionConverter}}" />
+                            <Run Text="{Binding Mode=OneTime, Converter={StaticResource RequiresConfigurationConverter}}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </TabItem>
+        
+        <TabItem Header="Aliases">
+        </TabItem>
+    </TabControl>
+
+</Page>

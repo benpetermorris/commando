@@ -1,0 +1,69 @@
+﻿<NavigationWindow x:Class="twomindseye.Commando.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:eic="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions" 
+        xmlns:lcontrols="clr-namespace:twomindseye.Commando.UI.Controls" 
+        xmlns:lutil="clr-namespace:twomindseye.Commando.UI.Util" 
+        xmlns:local="clr-namespace:twomindseye.Commando.UI"
+        mc:Ignorable="d" 
+        Title="Commando"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ShowInTaskbar="False"
+        WindowStartupLocation="Manual"
+        Background="{x:Null}" 
+        x:Name="_window"
+        Padding="10"
+        lcontrols:KeyMenuContext.HasContext="True"
+        ShowsNavigationUI="False"
+        d:DataContext="{d:DesignInstance local:MainWindow}">
+
+    <i:Interaction.Triggers>
+        <lutil:KeyTrigger Key="Escape">
+            <eic:CallMethodAction MethodName="Close" />
+        </lutil:KeyTrigger>
+        <lutil:CommandKeyTrigger ActionText="Zoom In" Key="Add" Modifiers="Control" Command="{Binding ScaleUpCommand}" IsExtra="True" />
+        <lutil:CommandKeyTrigger Key="OemPlus" Modifiers="Control" Command="{Binding ScaleUpCommand}" />
+        <lutil:CommandKeyTrigger ActionText="Zoom Out" Key="Subtract" Modifiers="Control" Command="{Binding ScaleDownCommand}" IsExtra="True" />
+        <lutil:CommandKeyTrigger Key="OemMinus" Modifiers="Control" Command="{Binding ScaleDownCommand}" />
+        <lutil:CommandKeyTrigger ActionText="Increase Height" Key="Up" Modifiers="Alt" Command="{Binding IncreaseHeightCommand}" IsExtra="True" />
+        <lutil:CommandKeyTrigger ActionText="Decrease Height" Key="Down" Modifiers="Alt" Command="{Binding DecreaseHeightCommand}" IsExtra="True" />
+        <lutil:CommandKeyTrigger Key="Left" Modifiers="Alt" Command="{Binding GoBackCommand}" ActionText="Go Back" />
+        <lutil:CommandKeyTrigger Key="D0" Modifiers="Control" Command="{Binding SettingsCommand}" ActionText="Settings" />
+    </i:Interaction.Triggers>
+
+    <NavigationWindow.Template>
+        <ControlTemplate TargetType="NavigationWindow">
+            <Canvas x:Name="_canvas">
+                <Grid x:Name="_mainGrid" Width="600" Height="200">
+                    <Grid.RenderTransform>
+                        <ScaleTransform x:Name="_scaleTrans" CenterX="300" CenterY="200" />
+                    </Grid.RenderTransform>
+                    <Border Background="OldLace" CornerRadius="8">
+                        <Border.BitmapEffect>
+                            <DropShadowBitmapEffect Color="Black" Direction="320" ShadowDepth="7" Opacity=".5" Softness="9" />
+                        </Border.BitmapEffect>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border BorderThickness="1" Margin="5" BorderBrush="DarkGray" CornerRadius="8" Padding="10">
+                                <Grid x:Name="_contentGrid">
+                                    <Canvas x:Name="_contentCanvas" ClipToBounds="True" />
+                                </Grid>
+                            </Border>
+
+                            <lcontrols:KeyMenuControl Grid.Row="1" Margin="4" HorizontalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Canvas>
+        </ControlTemplate>
+    </NavigationWindow.Template>
+
+</NavigationWindow>

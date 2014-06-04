@@ -1,0 +1,41 @@
+﻿<PageFunction x:Class="twomindseye.Commando.UI.Pages.ConfiguratorSetPage"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+              xmlns:lcontrols="clr-namespace:twomindseye.Commando.UI.Controls"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+              xmlns:lutil="clr-namespace:twomindseye.Commando.UI.Util"
+              xmlns:lpages="clr-namespace:twomindseye.Commando.UI.Pages" 
+              x:TypeArguments="sys:Boolean"
+              KeepAlive="True">
+ 
+    <i:Interaction.Triggers>
+        <lutil:CommandKeyTrigger ActionText="Save and Continue" Key="Return" Modifiers="Alt" x:Name="_saveKeyTrigger" />
+    </i:Interaction.Triggers>
+    
+    <TabControl x:Name="_tabs" DisplayMemberPath="Metadata.Name" Background="OldLace">
+        <TabControl.ItemContainerStyle>
+            <Style TargetType="TabItem">
+                <Setter Property="Background" Value="OldLace" />
+            </Style>
+        </TabControl.ItemContainerStyle>
+        <TabControl.ContentTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border Padding="4">
+                        <lcontrols:ConfiguratorControl Configurator="{Binding Configurator}" />
+                    </Border>
+                    <Border Padding="4" Grid.Row="1" 
+                            Visibility="{Binding ReasonDescription, Converter={StaticResource NullToVisibilityConverter}}">
+                        <TextBlock Text="{Binding ReasonDescription}" />
+                    </Border>
+                </Grid>
+            </DataTemplate>
+        </TabControl.ContentTemplate>
+    </TabControl>
+
+</PageFunction>

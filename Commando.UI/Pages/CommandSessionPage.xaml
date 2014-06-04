@@ -1,0 +1,81 @@
+<Page x:Class="twomindseye.Commando.UI.Pages.CommandSessionPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:lcontrols="clr-namespace:twomindseye.Commando.UI.Controls" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:eii="clr-namespace:Microsoft.Expression.Interactivity.Input;assembly=Microsoft.Expression.Interactions"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lvm="clr-namespace:twomindseye.Commando.UI.ViewModels"
+             xmlns:lutil="clr-namespace:twomindseye.Commando.UI.Util" 
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance lvm:CommandSessionViewModel}">
+
+    <i:Interaction.Triggers>
+        <lutil:CommandKeyTrigger Key="E" Modifiers="Ctrl" ActionText="Edit Command"
+                                 Command="{Binding EditSelectedExecutorCommand}" CommandParameter="{Binding SelectedCommand}" />
+        <lutil:CommandKeyTrigger Key="Enter" ActionText="Execute" 
+                                 Command="{Binding ExecuteCommand}" CommandParameter="{Binding SelectedCommand}" />
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <lcontrols:TimedTextBox x:Name="_commandText"
+                                BorderThickness="0" Height="25" Background="LightGray" VerticalContentAlignment="Center" 
+                                EventIntervalSeconds="0.7" TimedText="{Binding CommandText, Mode=TwoWay}">
+            <lcontrols:TimedTextBox.InputBindings>
+                <KeyBinding Key="Up" Command="{Binding SelectPreviousCommand}" />
+                <KeyBinding Key="Down" Command="{Binding SelectNextCommand}" />
+            </lcontrols:TimedTextBox.InputBindings>
+        </lcontrols:TimedTextBox>
+
+        <ListBox x:Name="_commandsList" Grid.Row="1" Margin="0,8,0,0" BorderThickness="0" Background="OldLace" 
+                 ItemsSource="{Binding GeneratedCommands}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" 
+                 HorizontalContentAlignment="Stretch">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding ExecuteCommand}" CommandParameter="{Binding SelectedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="4,4">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding Description}" FontSize="11" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Aliases, Converter={StaticResource EnumerableToStringValueConverter}}" 
+                                       Grid.Column="1" HorizontalAlignment="Right" FontSize="11" />
+                            <ItemsControl Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ParametersAndArguments}" IsTabStop="False">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,6,0">
+                                            <TextBlock Text="{Binding Item1.Name}" FontWeight="Bold" FontSize="9" />
+                                            <TextBlock Text="{Binding Item2.FacetMoniker.DisplayName, FallbackValue='Not Provided'}" FontSize="9" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+    </Grid>
+</Page>

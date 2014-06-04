@@ -1,0 +1,68 @@
+<Page x:Class="twomindseye.Commando.UI.Pages.EditCommandPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:lcontrols="clr-namespace:twomindseye.Commando.UI.Controls"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:eii="clr-namespace:Microsoft.Expression.Interactivity.Input;assembly=Microsoft.Expression.Interactions"
+             xmlns:lvm="clr-namespace:twomindseye.Commando.UI.ViewModels" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:lutil="clr-namespace:twomindseye.Commando.UI.Util"
+             xmlns:lpages="clr-namespace:twomindseye.Commando.UI.Pages" mc:Ignorable="d"
+             KeepAlive="True"
+             d:DataContext="{d:DesignInstance Type=lvm:EditCommandViewModel}">
+
+    <i:Interaction.Triggers>
+        <lutil:CommandKeyTrigger Key="Enter" ActionText="Execute" ActiveOnFocus="True" Command="{Binding ExecuteCommand}" />
+        <lutil:CommandKeyTrigger Key="A" Modifiers="Control" ActiveOnFocus="True" 
+                                 ActionText="Alias Command" Command="{Binding AliasCommandCommand}" />
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <TextBlock Text="{Binding Path=OriginalExecutor.Command.Name}" FontSize="13" FontWeight="Bold" />
+
+        <TabControl ItemsSource="{Binding Path=ArgumentEditors}" Grid.Row="1" Margin="0,4,0,0" DisplayMemberPath="Parameter.Name">
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ListBox ItemsSource="{Binding Path=Monikers}" SelectedItem="{Binding Path=SelectedMoniker, Mode=TwoWay}" 
+                             DisplayMemberPath="DisplayName">
+                        <i:Interaction.Triggers>
+                            <lutil:CommandKeyTrigger Key="F" Modifiers="Control" ActiveOnFocus="True" 
+                                                     ActionText="Alias Facet" 
+                                                     Command="{Binding DataContext.AliasFacetCommand, RelativeSource={RelativeSource AncestorType=lpages:EditCommandPage}}"
+                                                     CommandParameter="{Binding SelectedItem.Moniker, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                        </i:Interaction.Triggers>
+                    </ListBox>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+        
+        <!--<ItemsControl IsTabStop="False" ItemsSource="{Binding Path=ArgumentEditors}" Grid.Row="1" Margin="0,4,0,0">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Text="{Binding Path=Parameter.Name}" FontWeight="Bold" />
+
+                        <ListBox Grid.Row="1" Margin="0,2,0,0" BorderBrush="DarkGray" Height="40"
+                                 ItemsSource="{Binding Path=Monikers}" SelectedItem="{Binding Path=SelectedMoniker, Mode=TwoWay}" 
+                                 DisplayMemberPath="DisplayName" />
+
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>-->
+        
+    </Grid>
+    
+</Page>

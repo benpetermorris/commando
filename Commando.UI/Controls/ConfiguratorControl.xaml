@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="twomindseye.Commando.UI.Controls.ConfiguratorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lutil="clr-namespace:twomindseye.Commando.UI.Util"
+             xmlns:Extension="clr-namespace:twomindseye.Commando.API1.Extension;assembly=Commando.API"
+             xmlns:lcontrols="clr-namespace:twomindseye.Commando.UI.Controls" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=Extension:ConfiguratorMetadata}">
+    
+    <UserControl.Resources>
+        <lutil:DelegatingDataTemplateSelector x:Key="PropertyDataTemplateSelector" />
+        <DataTemplate x:Key="PropertyTemplateManyChoices">
+            <ComboBox IsEditable="{Binding PropertyMetadata.AllowUserValue}">
+                <lutil:IndirectBinding.IndirectBindings>
+                    <lutil:IndirectBinding TargetPropertyName="SelectedItem" SourcePropertyName="{Binding PropertyMetadata.PropertyName}" SourceObject="{Binding ConfiguratorProxy}" />
+                    <lutil:IndirectBinding TargetPropertyName="ItemsSource" SourcePropertyName="{Binding PropertyMetadata.ChoicesPropertyName}" SourceObject="{Binding ConfiguratorProxy}" />
+                </lutil:IndirectBinding.IndirectBindings>
+            </ComboBox>
+        </DataTemplate>
+        <DataTemplate x:Key="PropertyTemplateEditBox">
+            <TextBox>
+                <lutil:IndirectBinding.IndirectBindings>
+                    <lutil:IndirectBinding TargetPropertyName="Text" SourcePropertyName="{Binding PropertyMetadata.PropertyName}" SourceObject="{Binding ConfiguratorProxy}" />
+                </lutil:IndirectBinding.IndirectBindings>
+            </TextBox>
+        </DataTemplate>
+        <DataTemplate x:Key="PropertyTemplatePasswordBox">
+            <lcontrols:BindablePasswordBox>
+                <lutil:IndirectBinding.IndirectBindings>
+                    <lutil:IndirectBinding TargetPropertyName="Password" SourcePropertyName="{Binding PropertyMetadata.PropertyName}" SourceObject="{Binding ConfiguratorProxy}" />
+                </lutil:IndirectBinding.IndirectBindings>
+            </lcontrols:BindablePasswordBox>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <Grid x:Name="_grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>          
+
+        <ItemsControl ItemsSource="{Binding Path=Properties}" Grid.Row="1" IsTabStop="False">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Loaded="PropertyItemLoaded">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding PropertyMetadata.DisplayName}" FontWeight="Bold" />
+                        <ContentControl Grid.Row="1" Content="{Binding}" ContentTemplateSelector="{StaticResource PropertyDataTemplateSelector}" IsTabStop="False" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0AC7DDBB-A11C-4936-A802-005501573A52}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>twomindseye.Commando.API1</RootNamespace>
+    <AssemblyName>Commando.API1</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfoShared.cs">
+      <Link>AssemblyInfoShared.cs</Link>
+    </Compile>
+    <Compile Include="APIAttribute.cs" />
+    <Compile Include="AssemblyDecoupledException.cs" />
+    <Compile Include="Extension\Configurator.cs" />
+    <Compile Include="Extension\ConfiguratorMetadata.cs" />
+    <Compile Include="Extension\ConfiguratorNameAttribute.cs" />
+    <Compile Include="Extension\ConfiguratorPropertyAttribute.cs" />
+    <Compile Include="Extension\ConfiguratorPropertyMetadata.cs" />
+    <Compile Include="Extension\ConfiguratorValidationException.cs" />
+    <Compile Include="Extension\ConfiguresAttribute.cs" />
+    <Compile Include="Extension\ExtensionObject.cs" />
+    <Compile Include="Extension\ExtensionResolver.cs" />
+    <Compile Include="Extension\IConfigurator.cs" />
+    <Compile Include="Extension\IExtensionHooks.cs" />
+    <Compile Include="Extension\IExtensionObject.cs" />
+    <Compile Include="Extension\IExtensionResolveHandler.cs" />
+    <Compile Include="Extension\IKeyValueStore.cs" />
+    <Compile Include="Commands\FilterExtraDataAttribute.cs" />
+    <Compile Include="Commands\CommandParameterAttribute.cs" />
+    <Compile Include="SerializablePropertyChangedEventArgs.cs" />
+    <Compile Include="Facets\AmbientFacetAttribute.cs" />
+    <Compile Include="Facets\ExtraDataDefinitionAttribute.cs" />
+    <Compile Include="Facets\FacetExtraData.cs" />
+    <Compile Include="Facets\FacetExtraDataExtensions.cs" />
+    <Compile Include="Facets\FacetFactoryAttribute.cs" />
+    <Compile Include="Facets\FacetFactoryWithIndex.cs" />
+    <Compile Include="Facets\FacetIndexReason.cs" />
+    <Compile Include="Facets\FactoryIndexMode.cs" />
+    <Compile Include="Facets\FacetMoniker.cs" />
+    <Compile Include="Commands\CommandContainer.cs" />
+    <Compile Include="Facets\Facet.cs" />
+    <Compile Include="Commands\CommandAttribute.cs" />
+    <Compile Include="Facets\FacetFactory.cs" />
+    <Compile Include="EngineFacets\ITextFacet.cs" />
+    <Compile Include="Facets\IFacet.cs" />
+    <Compile Include="Facets\IFacetFactory.cs" />
+    <Compile Include="Facets\IFacetFactoryWithIndex.cs" />
+    <Compile Include="Parse\ParseMode.cs" />
+    <Compile Include="Parse\ParseInputTerm.cs" />
+    <Compile Include="Parse\ParseResult.cs" />
+    <Compile Include="Parse\ParseInput.cs" />
+    <Compile Include="Parse\ParseRange.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequiresConfigurationException.cs" />
+    <Compile Include="TypeMoniker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UsesConfiguratorAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Commando.Util\Commando.Util.csproj">
+      <Project>{8AC75332-6147-4749-8254-6A01DF153A0B}</Project>
+      <Name>Commando.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
